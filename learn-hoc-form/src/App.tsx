@@ -1,5 +1,5 @@
 import './App.css'
-import MyRCFormPage from './dome/MyRCFormPage.jsx';
+import MyRCFormPage from './dome/MyRCForm/index.jsx';
 
 function App() {
 
