@@ -1,16 +1,16 @@
-import CreateForm from './CreateForm';
+import React from 'react';
+import _CreateForm from './CreateForm';
 import CreateField from './CreateField';
 import useForm from './useForm';
 
-const Form = CreateForm
+const CreateForm = React.forwardRef(_CreateForm)
 
-Form.Field = CreateField
-Form.useForm = useForm
+CreateForm.Field = CreateField
+CreateForm.useForm = useForm
 
 export {
-  CreateForm,
   CreateField,
   useForm
 }
 
-export default Form
+export default CreateForm
