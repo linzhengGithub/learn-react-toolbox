@@ -1,16 +1,16 @@
-import { createStore } from '../Redux/index';
+import { createStore, applyMiddleWare, thunk, logger, promise } from '../Redux/index';
 
 function countReducer(state = 0, action) {
   switch (action.type) {
     case 'ADD':
       return state + 1
-    case 'subtract':
+    case 'MINUS':
       return state - 1
     default:
       return state
   }
 }
 
-const store = createStore(countReducer)
+const store = createStore(countReducer, applyMiddleWare(thunk, logger, promise))
 
 export { store }

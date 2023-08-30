@@ -5,6 +5,7 @@ export default class MyRedux extends Component {
   constructor(props) {
     super(props)
   }
+
   componentDidMount() {
     this.unsubscribe = store.subscribe(() => this.forceUpdate())
   }
@@ -14,13 +15,17 @@ export default class MyRedux extends Component {
   add = () => {
     store.dispatch({ type: 'ADD' })
   }
-  render() {
+  minus = () => {
+    setTimeout(() => { store.dispatch({ type: 'MINUS' }) }, 1000)
+  }
 
+  render() {
     return (
       <>
         <div>MyRedux</div>
         <div>{store.getState()}</div>
         <button onClick={this.add}>Add</button>
+        <button onClick={this.minus}>Minus</button>
       </>
     )
   }

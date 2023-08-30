@@ -1,4 +1,9 @@
-export function createStore(reducer) {
+export default function createStore(reducer, enhancer) {
+  // 增强器
+  if(enhancer) {
+    // 使用增强器返回一个全新的store
+    return enhancer(createStore)(reducer)
+  }
   let currentState;
   let currentListeners = [];
 
@@ -16,6 +21,7 @@ export function createStore(reducer) {
   }
 
   function dispatch(action) {
+    console.log(action);
     currentState = reducer(currentState, action)
     currentListeners.forEach(listener => listener())
   }
