@@ -19,6 +19,14 @@ export default class MyRedux extends Component {
     setTimeout(() => { store.dispatch({ type: 'MINUS' }) }, 1000)
   }
 
+  promiseMinus = () => {
+    store.dispatch(
+      Promise.resolve({
+        type: "MINUS",
+      })
+    )
+  };
+
   render() {
     return (
       <>
@@ -26,6 +34,7 @@ export default class MyRedux extends Component {
         <div>{store.getState()}</div>
         <button onClick={this.add}>Add</button>
         <button onClick={this.minus}>Minus</button>
+        <button onClick={this.promiseMinus}>promiseMinus</button>
       </>
     )
   }

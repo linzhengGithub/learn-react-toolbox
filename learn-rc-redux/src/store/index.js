@@ -11,6 +11,6 @@ function countReducer(state = 0, action) {
   }
 }
 
-const store = createStore(countReducer, applyMiddleWare(thunk, logger, promise))
+const store = createStore(countReducer, applyMiddleWare(thunk, promise, logger))
 
 export { store }

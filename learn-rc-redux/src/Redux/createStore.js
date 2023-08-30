@@ -21,7 +21,6 @@ export default function createStore(reducer, enhancer) {
   }
 
   function dispatch(action) {
-    console.log(action);
     currentState = reducer(currentState, action)
     currentListeners.forEach(listener => listener())
   }
