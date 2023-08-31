@@ -31,7 +31,7 @@ export default class MyRedux extends Component {
     return (
       <>
         <div>MyRedux</div>
-        <div>{store.getState()}</div>
+        <div>{store.getState().count}</div>
         <button onClick={this.add}>Add</button>
         <button onClick={this.minus}>Minus</button>
         <button onClick={this.promiseMinus}>promiseMinus</button>

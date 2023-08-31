@@ -1,3 +1,4 @@
+import combineReducers from '../Redux/combineReducers';
 import { createStore, applyMiddleWare, thunk, logger, promise } from '../Redux/index';
 
 function countReducer(state = 0, action) {
@@ -11,6 +12,11 @@ function countReducer(state = 0, action) {
   }
 }
 
-const store = createStore(countReducer, applyMiddleWare(thunk, promise, logger))
+const store = createStore(
+  combineReducers({
+    count: countReducer
+  }),
+  applyMiddleWare(thunk, promise, logger)
+)
 
 export { store }
