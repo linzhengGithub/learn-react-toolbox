@@ -1,11 +1,12 @@
 import './App.css'
-import MyRedux from './dome/MyRedux';
+// import MyRedux from './dome/MyRedux';
+import HooksPage from './dome/HooksPage';
 
 function App() {
 
   return (
     <div>
-      <MyRedux />
+      <HooksPage />
     </div>
   )
 }
