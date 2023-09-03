@@ -2,7 +2,7 @@ import { useReducer } from 'react';
 import { countReducer } from '../store';
 
 // useReducer - 接收3个参数; 1.reducer 2.初始值state 3.函数(返回一个 state, 处理一些复杂逻辑)
-// 简单的可以使用 useState; 复杂的可以使用 useReducer
+// 管理简单的状态值可以使用 useState; 复杂的可以使用 useReducer
 const init = (initArg) => initArg - 0
 function HookUseReducer() {
   const [state, dispatch] = useReducer(countReducer, '0', init)
@@ -23,3 +23,6 @@ export default function HooksPage() {
     </>
   )
 }
+
+// useEffect 延迟更新 
+// useLayoutEffect 同步更新
