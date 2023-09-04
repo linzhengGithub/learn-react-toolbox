@@ -1,5 +1,6 @@
 import combineReducers from '../Redux/combineReducers';
-import { createStore, applyMiddleWare, thunk, logger, promise } from '../Redux/index';
+import { createStore, applyMiddleWare, thunk, logger } from '../Redux/index';
+import promise from 'redux-promise';
 
 export function countReducer(state = 0, action) {
   switch (action.type) {
@@ -16,7 +17,11 @@ const store = createStore(
   combineReducers({
     count: countReducer
   }),
-  applyMiddleWare(thunk, promise, logger)
+  applyMiddleWare(
+    thunk,
+    promise,
+    // logger
+  )
 )
 
 export { store }
