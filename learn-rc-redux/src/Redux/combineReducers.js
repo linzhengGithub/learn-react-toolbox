@@ -11,7 +11,7 @@ export default function combineReducers(reducers) {
       hasChange = hasChange || nextState[key] !== state[key]
     }
 
-    hasChange = hasChange || Object.keys(nextState).length !== Object.keys(state).length
+    hasChange = hasChange || Object.keys(reducers).length !== Object.keys(state).length
 
     return hasChange ? nextState : state
   }
