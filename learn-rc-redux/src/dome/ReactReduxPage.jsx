@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
+// import { bindActionCreators } from 'redux';
+import { bindActionCreators } from '../Redux/index';
 
 // 接收一个 (state,[ownProps])
 const mapStateToProps = (state, ownProps) => {
