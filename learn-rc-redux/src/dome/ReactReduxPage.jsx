@@ -1,12 +1,13 @@
 import { Component } from "react";
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
+import { connect } from '../react-redux';
 // import { bindActionCreators } from 'redux';
 import { bindActionCreators } from '../Redux/index';
 
 // 接收一个 (state,[ownProps])
 const mapStateToProps = (state, ownProps) => {
   // 如果指定接收一个props, 当这个props发生改变,那么mapStateToProps就会被重新计算, mapDispatchToProps也会被重新调用, 注意使用性能
-  console.log('ownProps', ownProps);
+  // console.log('ownProps', ownProps);
   return state
 }
 // 数据类型 - function | object
@@ -26,11 +27,11 @@ const mapDispatchToProps = (dispatch) => {
   return { dispatch, ...creators }
 }
 
-
 class ReactReduxPage extends Component {
   render() {
     console.log('props', this.props);
-    const { count, dispatch, add, minus } = this.props
+    // eslint-disable-next-line react/prop-types
+    const { count, dispatch, add } = this.props
     return (
       <>
         <div>rc-redux</div>
