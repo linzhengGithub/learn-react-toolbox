@@ -51,3 +51,27 @@ const useForceUpdate = () => {
   return update
 }
 
+export const useSelector = (selector) => {
+  const store = useContext(Context)
+  const { getState, subscribe } = store
+  // selector 是一个函数,接收一个参数(所有的状态值getState), 外面传入的 selector 在外面怎么玩都不归我管, 我只需要传出去所有状态值就行
+  const selectedState = selector(getState())
+
+  const forceUpdate = useForceUpdate()
+  useLayoutEffect(() => {
+    const unsubscribe = subscribe(() => forceUpdate())
+    return () => { unsubscribe() }
+  }, [subscribe])
+
+  return selectedState
+}
+
+export const useDispatch = () => {
+  const store = useContext(Context)
+  const { dispatch } = store
+
+  return dispatch
+}
+
+
+
