@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useLayoutEffect, useReducer, useState } from "react"
+import React, { useCallback, useContext, useLayoutEffect, useReducer, useState, useSyncExternalStore } from "react"
 import { bindActionCreators } from "../Redux"
 
 // 1. 创建 context 对象
@@ -34,10 +34,15 @@ export const connect = (mapStateToProps, mapDispatchToProps) => (WrappedComponen
 
   // 不使用 useEffect 因为它会延迟更新
   // 副作用 - 更新state 
-  useLayoutEffect(() => {
-    const unsubscribe = subscribe(() => forceUpdate())
-    return () => { unsubscribe() }
-  }, [subscribe])
+  // useLayoutEffect(() => {
+  //   const unsubscribe = subscribe(() => forceUpdate())
+  //   return () => { unsubscribe() }
+  // }, [subscribe])
+
+  // 使用 useSyncExternalStore 代替 useLayoutEffect
+  useSyncExternalStore(() => {
+    subscribe(forceUpdate)
+  }, getState)
 
   return <WrappedComponent {...props} {...stateProps} {...dispatchProps} />
 }
@@ -55,13 +60,20 @@ export const useSelector = (selector) => {
   const store = useContext(Context)
   const { getState, subscribe } = store
   // selector 是一个函数,接收一个参数(所有的状态值getState), 外面传入的 selector 在外面怎么玩都不归我管, 我只需要传出去所有状态值就行
-  const selectedState = selector(getState())
+  // const selectedState = selector(getState())
 
   const forceUpdate = useForceUpdate()
-  useLayoutEffect(() => {
-    const unsubscribe = subscribe(() => forceUpdate())
-    return () => { unsubscribe() }
-  }, [subscribe])
+  // useLayoutEffect(() => {
+  //   const unsubscribe = subscribe(() => forceUpdate())
+  //   return () => { unsubscribe() }
+  // }, [subscribe])
+
+  // 使用 useSyncExternalStore 代替 useLayoutEffect
+  const state = useSyncExternalStore(() => {
+    subscribe(forceUpdate)
+  }, getState)
+
+  const selectedState = selector(state)
 
   return selectedState
 }
