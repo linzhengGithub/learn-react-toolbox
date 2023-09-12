@@ -1,5 +1,6 @@
-import { createReducer } from "@reduxjs/toolkit"
+// import { createReducer } from "@reduxjs/toolkit"
 import createAction from "./createAction"
+import createReducer from "./createReducer"
 
 export default function createSlice({ name, initialState, reducers }) {
   const reducerNames = Object.keys(reducers)
