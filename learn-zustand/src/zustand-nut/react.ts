@@ -1,7 +1,9 @@
 // react 状态管理库
 
-import { useSyncExternalStore } from 'react';
+// import { useSyncExternalStore } from 'react';
 import { StateCreator, StoreApi, createStore } from './vanilla';
+import useSyncExternalStoreExports from "use-sync-external-store/shim/with-selector";
+const { useSyncExternalStoreWithSelector } = useSyncExternalStoreExports;
 
 // 推断类型
 type ExtractState<S> = S extends { getState: () => infer T } ? T : never;
@@ -23,18 +25,18 @@ export type UseBoundStore<S extends WithReact<ReadonlyStoreApi<unknown>>> = {
 } & S;
 
 type Create = {
-  <T>(createState: StateCreator<T>): StoreApi<T>
-  <T>(): (createState: StateCreator<T>) => StoreApi<T>
-}
+  <T>(createState: StateCreator<T>): UseBoundStore<StoreApi<T>>;
+  <T>(): (createState: StateCreator<T>) => UseBoundStore<StoreApi<T>>;
+};
 
 // 要求兼容 ts和js 
 export const create = function <T>(createState: StateCreator<T>) {
   return createState ? createImpl(createState) : createImpl
 } as Create
 
-function createImpl<T>(createState: StateCreator<T>) {
+const createImpl = function <T>(createState: StateCreator<T>) {
   const api = typeof createState === 'function' ? createStore(createState) : createState
-  const useBoundStore = (selector?: any) => useStore(api, selector)
+  const useBoundStore = (selector?: any, equalityFn?: any) => useStore(api, selector, equalityFn)
 
   return useBoundStore
 }
@@ -42,8 +44,15 @@ function createImpl<T>(createState: StateCreator<T>) {
 export function useStore<TState, StateSlice>(
   api: WithReact<StoreApi<TState>>,
   selector: (state: TState) => StateSlice = api.getState as any,
+  equalityFn: (a: StateSlice, b: StateSlice) => boolean
 ) {
-  const slice = useSyncExternalStore(api.subscribe, api.getState, api.getServerState || api.getState)
+  const slice = useSyncExternalStoreWithSelector(
+    api.subscribe,
+    api.getState,
+    api.getServerState || api.getState,
+    selector,
+    equalityFn
+  )
 
   return slice
 }

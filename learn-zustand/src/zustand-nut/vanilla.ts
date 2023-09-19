@@ -26,12 +26,13 @@ type CreateStore = {
 }
 
 export const createStore = (
-  (createState) => createState ? createStoreImp(createState) : createStoreImp
-) as CreateStore
+  (createState) => createState ? createStoreImpl(createState) : createStoreImpl
+) as CreateStore;
+
 
 type CreateStoreImpl = <T>(createImpl: StateCreator<T>) => StoreApi<T>
 
-export const createStoreImp: CreateStoreImpl = (createState) => {
+export const createStoreImpl: CreateStoreImpl = (createState) => {
   type TState = ReturnType<typeof createState>
   type Listener = (state: TState, prevState: TState) => void
 
@@ -67,7 +68,7 @@ export const createStoreImp: CreateStoreImpl = (createState) => {
     destory,
   };
 
-  state = createState(setState,getState, api)
+  state = createState(setState, getState, api)
 
   return api
 }
