@@ -6,7 +6,7 @@ type SetStateInternal<T> = {
   ): void
 }['_']
 
-interface StoreApi<T> {
+export interface StoreApi<T> {
   getState: () => T
   setState: SetStateInternal<T>
   // 参数是监听状态值变化的函数,返回取消订阅函数
@@ -14,9 +14,9 @@ interface StoreApi<T> {
   destory: () => void
 }
 
-type StateCreator<T> = (
-  getState: StoreApi<T>['getState'],
+export type StateCreator<T> = (
   setState: StoreApi<T>['setState'],
+  getState: StoreApi<T>['getState'],
   store: StoreApi<T>
 ) => T
 
@@ -25,7 +25,9 @@ type CreateStore = {
   <T>(): (createState: StateCreator<T>) => StoreApi<T>
 }
 
-export const createStore = () => ((createState) => createState ? createStoreImp(createState) : createStoreImp) as CreateStore
+export const createStore = (
+  (createState) => createState ? createStoreImp(createState) : createStoreImp
+) as CreateStore
 
 type CreateStoreImpl = <T>(createImpl: StateCreator<T>) => StoreApi<T>
 
@@ -65,7 +67,7 @@ export const createStoreImp: CreateStoreImpl = (createState) => {
     destory,
   };
 
-  state = createState(getState, setState, api)
+  state = createState(setState,getState, api)
 
   return api
 }
