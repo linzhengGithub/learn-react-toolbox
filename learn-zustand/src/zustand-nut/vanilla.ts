@@ -1,7 +1,7 @@
 // js 状态管理库
 type SetStateInternal<T> = {
   _(
-    partial: T | Partial<T> | { _(state: T): T | Partial<T> }['_'],
+    partial: T | Partial<T> | { _(state: T): T | Partial<T> | void }['_'],
     replace?: boolean | undefined
   ): void
 }['_']

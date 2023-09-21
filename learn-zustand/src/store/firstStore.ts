@@ -1,5 +1,6 @@
 import { create } from '../zustand-nut/react'
 // import { create } from 'zustand'
+import { immer } from '../zustand-nut/middleware/immer'
 
 interface CreateStore {
   bears: number
@@ -7,10 +8,13 @@ interface CreateStore {
   rest: () => void
 }
 
-const useStore = create<CreateStore>()((set) => ({
+const useStore = create(immer<CreateStore>((set) => ({
   bears: 0,
-  increase: (by = 1) => set((state) => ({ bears: state.bears + by })),
+  increase: (by = 1) =>
+    set((state) => {
+      state.bears += by
+    }),
   rest: () => set({ bears: 0 }),
-}))
+})))
 
 export default useStore

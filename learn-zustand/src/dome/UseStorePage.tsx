@@ -13,6 +13,7 @@ const UseStorePage = () => {
 };
 
 // do not overuse custom hooks
+// 推荐写法 useStore 解构出来赋值, 不要一味的想上面一样,会造成 状态频繁改变,组件频繁更新
 const Child = memo(() => {
   const bears = useStore(
     (state: any) => state.bears,
