@@ -4,10 +4,13 @@ export default function createRoutesFromChildren(children) {
   const routes = []
 
   React.Children.forEach(children, (child) => {
-    const route = {
-      element: child.props.element,
-      path: child.props.path
+    const { props: { element, path, children } } = child
+    const route = { element, path }
+
+    if (children && children.length) {
+      route.children = createRoutesFromChildren(children)
     }
+    
     routes.push(route)
   })
 

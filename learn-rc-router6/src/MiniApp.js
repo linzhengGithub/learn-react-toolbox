@@ -1,18 +1,31 @@
-import { BrowserRouter as Router, Routes, Route } from "./mini-react-router";
+import { BrowserRouter as Router, Routes, Route, Link } from "./mini-react-router";
 
 export default function App() {
   return (
     <div className="app">
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="product" element={<Product />} />
-      </Routes>
-    </Router>
-  </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="product" element={<Product />} />
+          </Route>
+        </Routes>
+      </Router>
+    </div>
   )
 }
 
+
+function Layout() {
+  return (
+    <div>
+      <h1>Layout</h1>
+      <Link to="/">首页</Link>
+      <Link to="/product">商品</Link>
+
+    </div>
+  )
+}
 
 function Home() {
   return (
