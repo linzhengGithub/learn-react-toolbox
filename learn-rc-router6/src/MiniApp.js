@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "./mini-react-router";
+import { BrowserRouter as Router, Routes, Route, Link, Outlet } from "./mini-react-router";
 
 export default function App() {
   return (
@@ -23,6 +23,7 @@ function Layout() {
       <Link to="/">首页</Link>
       <Link to="/product">商品</Link>
 
+      <Outlet />
     </div>
   )
 }
