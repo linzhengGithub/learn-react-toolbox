@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, Link, Outlet } from "./mini-react-router";
+import { BrowserRouter as Router, Routes, Route, Link, Outlet, useNavigate, useParams } from "./mini-react-router";
+// import { BrowserRouter as Router, Routes, Route, Link, Outlet, useNavigate, useParams } from "react-router-dom";
 
 export default function App() {
   return (
@@ -7,7 +8,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Home />} />
-            <Route path="product" element={<Product />} />
+            <Route path="product" element={<Product />}>
+              <Route path=":id" element={<ProductDetail />} />
+            </Route>
           </Route>
         </Routes>
       </Router>
@@ -40,7 +43,20 @@ function Product() {
   return (
     <div>
       <h1>Product</h1>
+      <Link to="/product/123">商品详情</Link>
+
+      <Outlet />
     </div>
   )
 }
 
+function ProductDetail() {
+  const params = useParams()
+  const navigate = useNavigate()
+  return (
+    <div>
+      <h1>ProductDetail:{params.id}</h1>
+      <button onClick={() => navigate('/')}>go home</button>
+    </div>
+  )
+}

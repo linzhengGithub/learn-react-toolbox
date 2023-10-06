@@ -7,7 +7,7 @@ export default function createRoutesFromChildren(children) {
     const { props: { element, path, children } } = child
     const route = { element, path }
 
-    if (children && children.length) {
+    if (children) {
       route.children = createRoutesFromChildren(children)
     }
     

@@ -1,29 +1,29 @@
 import React from "react"
 import { NavigationContext, RouteContext } from "./Context"
-import { normalizePathname } from "./utils"
-import Outlet from "./Outlet"
+// import Outlet from "./Outlet"
+import { matchRoutes } from 'react-router-dom';
 
 export function useRoutes(routes) {
   const location = useLocation()
   const pathname = location.pathname
 
-  return routes.map((route) => {
-    const match = pathname.startsWith(route.path)
+  const matches = matchRoutes(routes, { pathname })
 
-    return match ? route.children.map((child) => {
-      let m = normalizePathname(child.path) === pathname
-      return (
-        m && (
-          <RouteContext.Provider
-            value={{ outlet: child.element }}
-            // 子组件的渲染: 对父组件的监测
-            children={route.element !== undefined ? route.element : <Outlet />}
-          />
-        )
-      )
-    }) : null
-  })
+  return renderMatches(matches)
 };
+
+function renderMatches(matches) {
+  if (matches == null) return null
+
+  return matches.reduceRight((outlet, match) => {
+    return (
+      <RouteContext.Provider
+        value={{ outlet, matches }}
+        children={match.route.element || outlet}
+      />
+    )
+  }, null)
+}
 
 export function useNavigate() {
   // 只做跳转
@@ -43,3 +43,11 @@ export function useOutlet() {
 
   return outlet
 };
+
+export function useParams() {
+  const { matches } = React.useContext(RouteContext)
+  const routeMatch = matches[matches.length - 1]
+
+  return routeMatch ? routeMatch.params : {}
+};
+
