@@ -1,6 +1,5 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { NavigationContext, RouteContext } from "./Context"
-// import Outlet from "./Outlet"
 import { matchRoutes } from 'react-router-dom';
 
 export function useRoutes(routes) {
@@ -26,10 +25,24 @@ function renderMatches(matches) {
 }
 
 export function useNavigate() {
-  // 只做跳转
+  // 跳转
   const { navigator } = React.useContext(NavigationContext)
 
-  return navigator.push
+  const navigate = useCallback(
+    (to, options = {}) => {
+      if (typeof to === "number") {
+        navigator.go(to);
+        return;
+      }
+      (!!options.replace ? navigator.replace : navigator.push)(
+        to,
+        options.state
+      );
+    },
+    [navigator]
+  );
+
+  return navigate;
 };
 
 export function useLocation() {
