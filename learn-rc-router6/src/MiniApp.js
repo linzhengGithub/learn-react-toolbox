@@ -1,5 +1,8 @@
+import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link, Outlet, useNavigate, useParams } from "./mini-react-router";
 // import { BrowserRouter as Router, Routes, Route, Link, Outlet, useNavigate, useParams } from "react-router-dom";
+
+const About = React.lazy(() => import('./pages/About'))
 
 export default function App() {
   return (
@@ -11,6 +14,14 @@ export default function App() {
             <Route path="product" element={<Product />}>
               <Route path=":id" element={<ProductDetail />} />
             </Route>
+            <Route path="/about" element={
+              <React.Suspense
+                fallback={
+                  <h1>loading...</h1>
+                }>
+                <About />
+              </React.Suspense>
+            } />
           </Route>
         </Routes>
       </Router>
@@ -25,6 +36,7 @@ function Layout() {
       <h1>Layout</h1>
       <Link to="/">首页</Link>
       <Link to="/product">商品</Link>
+      <Link to="/about">关于</Link>
 
       <Outlet />
     </div>
