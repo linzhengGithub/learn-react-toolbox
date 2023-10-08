@@ -1,6 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link, Outlet, useNavigate, useParams } from "./mini-react-router";
-// import { BrowserRouter as Router, Routes, Route, Link, Outlet, useNavigate, useParams } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, Outlet, useNavigate, useParams, useResolvedPath, useMatch } from "./mini-react-router";
+// import { BrowserRouter as Router, Routes, Route, Link, Outlet, useNavigate, useParams, useResolvedPath, useMatch } from "react-router-dom";
 
 const About = React.lazy(() => import('./pages/About'))
 
@@ -29,14 +29,20 @@ export default function App() {
   )
 }
 
+function CustomLink({ to, ...rest }) {
+  const resolved = useResolvedPath(to);
+  const match = useMatch({ path: resolved.pathname, end: true });
+
+  return <Link to={to} {...rest} style={{ color: match ? "red" : "black" }} />;
+}
 
 function Layout() {
   return (
     <div>
       <h1>Layout</h1>
-      <Link to="/">首页</Link>
-      <Link to="/product">商品</Link>
-      <Link to="/about">关于</Link>
+      <CustomLink to="/">首页</CustomLink>
+      <CustomLink to="/product">商品</CustomLink>
+      <CustomLink to="/about">关于</CustomLink>
 
       <Outlet />
     </div>
@@ -55,7 +61,9 @@ function Product() {
   return (
     <div>
       <h1>Product</h1>
-      <Link to="/product/123">商品详情</Link>
+      <CustomLink to="/product/123">商品详情</CustomLink>
+      {/* useResolvedPath 可以匹配 path: 123  */}
+      {/* <CustomLink to="123">商品详情</CustomLink> */}
 
       <Outlet />
     </div>

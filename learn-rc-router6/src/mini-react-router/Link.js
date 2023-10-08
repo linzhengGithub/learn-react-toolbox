@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from './hooks';
 
-export default function Link({ to, children }) {
+export default function Link({ to, children, ...rest }) {
   const navigate = useNavigate()
   const handleClick = (e) => {
     e.preventDefault();
@@ -9,6 +9,6 @@ export default function Link({ to, children }) {
   }
 
   return (
-    <a href={to} onClick={handleClick}>{children}</a>
+    <a href={to} onClick={handleClick} {...rest}>{children}</a>
   )
 }

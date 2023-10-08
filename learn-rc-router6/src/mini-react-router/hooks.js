@@ -1,6 +1,6 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useMemo } from "react"
 import { NavigationContext, RouteContext } from "./Context"
-import { matchRoutes } from 'react-router-dom';
+import { matchPath, matchRoutes } from 'react-router-dom';
 
 export function useRoutes(routes) {
   const location = useLocation()
@@ -64,3 +64,18 @@ export function useParams() {
   return routeMatch ? routeMatch.params : {}
 };
 
+export function useMatch(pattern) {
+  const { pathname } = useLocation()
+
+  return useMemo(() => matchPath(pattern, pathname), [pathname, pattern])
+};
+
+export function useResolvedPath(to) {
+  const { pathname } = useLocation()
+
+  return useMemo(() => ({
+    pathname: to,
+    search: '',
+    hash: ''
+  }), [pathname])
+};
